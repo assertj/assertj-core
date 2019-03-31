@@ -20,6 +20,8 @@ import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -72,6 +74,14 @@ import org.assertj.core.util.introspection.FieldSupport;
  */
 @CheckReturnValue
 public class AssertionsForClassTypes {
+
+  public static BufferAssert assertThat(Buffer actual) {
+    return new BufferAssert(actual);
+  }
+
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return new ByteBufferAssert(actual);
+  }
 
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.

@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.Timestamp;
@@ -142,6 +144,14 @@ public class Assertions {
    * Creates a new <code>{@link Assertions}</code>.
    */
   protected Assertions() {}
+
+  public static BufferAssert assertThat(Buffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
 
   /**
    * Create assertion for {@link Predicate}.
