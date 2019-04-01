@@ -35,7 +35,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     super(buffer, selfType);
   }
 
-  public SELF equals(String expected) {
+  public SELF isEqualTo(String expected) {
     isNotNull();
     isFlipped();
 
@@ -44,7 +44,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     return myself;
   }
 
-  public SELF equals(String expected, Charset charset) {
+  public SELF isEqualTo(String expected, Charset charset) {
     isNotNull();
     isFlipped();
 
@@ -53,7 +53,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     return myself;
   }
 
-  public SELF equals(byte[] expected) {
+  public SELF isEqualTo(byte[] expected) {
     isNotNull();
     isFlipped();
 
@@ -61,7 +61,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     return myself;
   }
 
-  public SELF equals(ByteBuffer expected) {
+  public SELF isEqualTo(ByteBuffer expected) {
     isNotNull();
     isFlipped();
 

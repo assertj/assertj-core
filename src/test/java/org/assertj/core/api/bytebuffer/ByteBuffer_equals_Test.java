@@ -28,7 +28,7 @@ public class ByteBuffer_equals_Test {
   public void should_pass_when_buffer_equals_expected_string_with_default_charset() {
     String testString = "test";
     ByteBuffer buffer = ByteBuffer.wrap(testString.getBytes());
-    assertThat(buffer).equals(testString);
+    assertThat(buffer).isEqualTo(testString);
   }
 
   @Test
@@ -37,7 +37,7 @@ public class ByteBuffer_equals_Test {
     String expected = "differentString";
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
-    assertThatThrownBy(() -> assertThat(buffer).equals(expected))
+    assertThatThrownBy(() -> assertThat(buffer).isEqualTo(expected))
       .isInstanceOf(AssertionError.class)
       .hasMessage(contentsShouldBeEqualTo(expected, buffer).create());
   }
@@ -48,7 +48,7 @@ public class ByteBuffer_equals_Test {
     Charset specified = Charsets.UTF_8;
 
     ByteBuffer buffer = specified.encode(testString);
-    assertThat(buffer).equals(testString, specified);
+    assertThat(buffer).isEqualTo(testString, specified);
   }
 
   @Test
@@ -58,7 +58,7 @@ public class ByteBuffer_equals_Test {
     Charset specified = Charsets.UTF_8;
 
     ByteBuffer buffer = specified.encode(actual);
-    assertThatThrownBy(() -> assertThat(buffer).equals(expected, specified))
+    assertThatThrownBy(() -> assertThat(buffer).isEqualTo(expected, specified))
       .isInstanceOf(AssertionError.class)
       .hasMessage(contentsShouldBeEqualTo(expected, buffer).create());
   }
@@ -68,7 +68,7 @@ public class ByteBuffer_equals_Test {
     String testString = "test";
 
     ByteBuffer buffer = ByteBuffer.wrap(testString.getBytes());
-    assertThat(buffer).equals(testString.getBytes());
+    assertThat(buffer).isEqualTo(testString.getBytes());
   }
 
   @Test
@@ -77,7 +77,7 @@ public class ByteBuffer_equals_Test {
     String expected = "differentString";
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
-    assertThatThrownBy(() -> assertThat(buffer).equals(expected.getBytes()))
+    assertThatThrownBy(() -> assertThat(buffer).isEqualTo(expected.getBytes()))
       .isInstanceOf(AssertionError.class);
   }
 
@@ -87,7 +87,7 @@ public class ByteBuffer_equals_Test {
     ByteBuffer actual = ByteBuffer.wrap(testString.getBytes());
     ByteBuffer expected = ByteBuffer.wrap(testString.getBytes());
 
-    assertThat(actual).equals(expected);
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
@@ -95,7 +95,7 @@ public class ByteBuffer_equals_Test {
     ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
     ByteBuffer expected = ByteBuffer.wrap("differentString".getBytes());
 
-    assertThatThrownBy(() -> assertThat(actual).equals(expected))
+    assertThatThrownBy(() -> assertThat(actual).isEqualTo(expected))
       .isInstanceOf(AssertionError.class);
   }
 }
