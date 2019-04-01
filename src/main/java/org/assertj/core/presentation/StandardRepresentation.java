@@ -25,6 +25,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -182,6 +183,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    if (object instanceof ByteBuffer) return toStringOf((ByteBuffer) object);
     return object == null ? null : fallbackToStringOf(object);
   }
 
@@ -289,6 +291,34 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
+  }
+
+  protected String toStringOf(ByteBuffer b) {
+    StringBuilder result = new StringBuilder("[");
+
+    // Copy buffer content
+    byte[] content = new byte[b.capacity()];
+    for (int i = 0; i < b.limit(); i++) {
+      content[i] = b.get(i);
+    }
+
+    // Fill remaining capacity with 'X' character
+    for (int i = b.limit(); i < b.capacity(); i++) {
+      content[i] = 'X';
+    }
+
+    // Transforms the byte array to a String using the platform default charset.
+    // Adds '->' to denote the current position
+    String contentString = new String(content);
+    for (int i = 0; i < contentString.length(); i++) {
+      if (i == b.position()) {
+        result.append("->");
+      }
+      result.append(contentString.charAt(i)).append(" ");
+    }
+    result.deleteCharAt(result.length() - 1); // Remove trailing space.
+    result.append("]");
+    return  result.toString();
   }
 
   protected String toStringOf(CompletableFuture<?> future) {
