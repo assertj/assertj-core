@@ -14,6 +14,7 @@ package org.assertj.core.error.bytebuffer;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.util.Hexadecimals;
 
 import java.nio.ByteBuffer;
 
@@ -22,6 +23,7 @@ public class ContentsShouldEndWith extends BasicErrorMessageFactory {
   private static final String CONTENTS_SHOULD_END_WITH = "%nExpected the contents of%n  <%s>%nto end with%n  <%s>";
 
   public static ErrorMessageFactory contentsShouldEndWith(String expected, ByteBuffer actual) {
+    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(), " ");
     return new ContentsShouldEndWith(expected, actual);
   }
 

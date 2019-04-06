@@ -58,6 +58,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.Hexadecimals;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
 import org.assertj.core.util.diff.InsertDelta;
@@ -294,31 +295,11 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(ByteBuffer b) {
-    StringBuilder result = new StringBuilder("[");
-
-    // Copy buffer content
-    byte[] content = new byte[b.capacity()];
-    for (int i = 0; i < b.limit(); i++) {
-      content[i] = b.get(i);
-    }
-
-    // Fill remaining capacity with 'X' character
-    for (int i = b.limit(); i < b.capacity(); i++) {
-      content[i] = 'X';
-    }
-
-    // Transforms the byte array to a String using the platform default charset.
-    // Adds '->' to denote the current position
-    String contentString = new String(content);
-    for (int i = 0; i < contentString.length(); i++) {
-      if (i == b.position()) {
-        result.append("->");
-      }
-      result.append(contentString.charAt(i)).append(" ");
-    }
-    result.deleteCharAt(result.length() - 1); // Remove trailing space.
-    result.append("]");
-    return  result.toString();
+    String separator = " ";
+    int arrowLocation = b.position() * (2 + separator.length());  // 2 = byte representation length in chars.
+    String result = Hexadecimals.byteArrayToHexString(b.array(), separator);
+    result = "[" + result.substring(0, arrowLocation) + "->" + result.substring(arrowLocation) + "]";
+    return result;
   }
 
   protected String toStringOf(CompletableFuture<?> future) {

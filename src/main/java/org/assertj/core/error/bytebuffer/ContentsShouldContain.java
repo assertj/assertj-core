@@ -14,6 +14,7 @@ package org.assertj.core.error.bytebuffer;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.util.Hexadecimals;
 
 import java.nio.ByteBuffer;
 
@@ -22,6 +23,7 @@ public class ContentsShouldContain extends BasicErrorMessageFactory {
   private static final String CONTENTS_SHOULD_CONTAIN = "%nExpected the contents of%n  <%s>%nto contain%n  <%s>";
 
   public static ErrorMessageFactory contentsShouldContain(String expected, ByteBuffer actual) {
+    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(), " ");
     return new ContentsShouldContain(expected, actual);
   }
 

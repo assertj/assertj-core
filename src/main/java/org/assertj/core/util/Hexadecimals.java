@@ -24,6 +24,16 @@ public class Hexadecimals {
     return new String(new char[] { HEX_ARRAY[v >>> 4], HEX_ARRAY[v & 0x0F] });
   }
 
+  public static String byteArrayToHexString(byte[] array, String separator) {
+    StringBuilder sb = new StringBuilder();
+    for (byte b : array) {
+      sb.append(Hexadecimals.byteToHexString(b))
+        .append(separator);
+    }
+    sb.deleteCharAt(sb.length() - 1); // Remove trailing separator.
+    return sb.toString();
+  }
+
   private Hexadecimals() {
 
   }
