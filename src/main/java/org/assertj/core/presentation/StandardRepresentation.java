@@ -25,6 +25,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -294,11 +295,15 @@ public class StandardRepresentation implements Representation {
     return dateFormat.toPattern();
   }
 
+  protected String toStringOf(Buffer b) {
+    return b.toString();
+  }
+
   protected String toStringOf(ByteBuffer b) {
     String separator = " ";
     String result = Hexadecimals.byteArrayToHexString(b.array(), separator);
     int arrowLocation = b.position() * (2 + separator.length());  // 2 = byte representation length in chars.
-    if (b.position() == b.capacity()) {  // Accomodate for no separator at the end
+    if (b.position() == b.capacity()) {  // Accommodate for no separator at the end
       arrowLocation--;
     }
     result = "[" + result.substring(0, arrowLocation) + "->" + result.substring(arrowLocation) + "]";

@@ -20,7 +20,7 @@ import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
 import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
 
-public class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer> extends AbstractAssert<SELF, ACTUAL> {
 
   public AbstractBufferAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
