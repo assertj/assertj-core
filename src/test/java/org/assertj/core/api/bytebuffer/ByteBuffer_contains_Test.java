@@ -12,16 +12,26 @@
  */
 package org.assertj.core.api.bytebuffer;
 
-import com.google.common.base.Charsets;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldContain.contentsShouldContain;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.bytebuffer.ContentsShouldContain.contentsShouldContain;
+import org.junit.jupiter.api.Test;
 
+import com.google.common.base.Charsets;
+
+/**
+ * Tests for :
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#contains(byte[])}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#contains(String)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#contains(ByteBuffer)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#contains(String, Charset)}</code>.
+ *
+ * @author Jean de Leeuw
+ */
 public class ByteBuffer_contains_Test {
 
   @Test
@@ -38,7 +48,7 @@ public class ByteBuffer_contains_Test {
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).contains(expected))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldContain(expected, buffer).create());
+      .hasMessage(contentsShouldContain(expected, buffer, Charset.defaultCharset()).create());
   }
 
   @Test
@@ -58,7 +68,20 @@ public class ByteBuffer_contains_Test {
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).contains(expected, specified))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldContain(expected, buffer).create());
+      .hasMessage(contentsShouldContain(expected, buffer, specified).create());
+  }
+
+  @Test
+  public void should_fail_when_buffer_does_not_contains_expected_string_with_different_charsets() {
+    String fullContent = "test";
+    String containsContent = "es";
+    Charset actualCharset = Charsets.UTF_8;
+    Charset expectedCharset = Charsets.UTF_16;
+
+    ByteBuffer buffer = actualCharset.encode(fullContent);
+    assertThatThrownBy(() -> assertThat(buffer).contains(containsContent, expectedCharset))
+      .isInstanceOf(AssertionError.class)
+      .hasMessage(contentsShouldContain(containsContent, buffer, expectedCharset).create());
   }
 
   @Test

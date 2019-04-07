@@ -12,16 +12,26 @@
  */
 package org.assertj.core.api.bytebuffer;
 
-import com.google.common.base.Charsets;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldStartWith.contentsShouldStartWith;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.bytebuffer.ContentsShouldStartWith.contentsShouldStartWith;
+import org.junit.jupiter.api.Test;
 
+import com.google.common.base.Charsets;
+
+/**
+ * Tests for :
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#startsWith(byte[])}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#startsWith(String)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#startsWith(ByteBuffer)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#startsWith(String, Charset)}</code>.
+ *
+ * @author Jean de Leeuw
+ */
 public class ByteBuffer_startsWith_Test {
 
   @Test
@@ -38,7 +48,7 @@ public class ByteBuffer_startsWith_Test {
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).startsWith(expected))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldStartWith(expected, buffer).create());
+      .hasMessage(contentsShouldStartWith(expected, buffer, Charset.defaultCharset()).create());
   }
 
   @Test
@@ -58,7 +68,20 @@ public class ByteBuffer_startsWith_Test {
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).startsWith(expected, specified))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldStartWith(expected, buffer).create());
+      .hasMessage(contentsShouldStartWith(expected, buffer, specified).create());
+  }
+
+  @Test
+  public void should_fail_when_buffer_does_not_start_with_expected_string_with_different_charsets() {
+    String fullContent = "test";
+    String startsWithContent = "te";
+    Charset actualCharset = Charsets.UTF_8;
+    Charset expectedCharset = Charsets.UTF_16;
+
+    ByteBuffer buffer = actualCharset.encode(fullContent);
+    assertThatThrownBy(() -> assertThat(buffer).startsWith(startsWithContent, expectedCharset))
+      .isInstanceOf(AssertionError.class)
+      .hasMessage(contentsShouldStartWith(startsWithContent, buffer, expectedCharset).create());
   }
 
   @Test

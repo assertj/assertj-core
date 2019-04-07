@@ -12,16 +12,21 @@
  */
 package org.assertj.core.api.buffer;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
+import org.assertj.core.api.AbstractBufferAssert;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Tests for <code>{@link AbstractBufferAssert#isFlipped()}</code>.
+ * @author Jean de Leeuw
+ */
 public class Buffer_isFlipped_Test {
 
   private Buffer buffer;

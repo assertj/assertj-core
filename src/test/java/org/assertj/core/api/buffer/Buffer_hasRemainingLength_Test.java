@@ -22,6 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
 
+/**
+ * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasRemainingLength(int)}</code>.
+ * @author Jean de Leeuw
+ */
 public class Buffer_hasRemainingLength_Test {
 
   private Buffer buffer;

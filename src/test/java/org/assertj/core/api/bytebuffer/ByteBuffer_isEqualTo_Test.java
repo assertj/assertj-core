@@ -12,17 +12,27 @@
  */
 package org.assertj.core.api.bytebuffer;
 
-import com.google.common.base.Charsets;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldBeEqualTo.contentsShouldBeEqualTo;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.bytebuffer.ContentsShouldBeEqualTo.contentsShouldBeEqualTo;
+import org.junit.jupiter.api.Test;
 
-public class ByteBuffer_equals_Test {
+import com.google.common.base.Charsets;
+
+/**
+ * Tests for :
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#isEqualTo(byte[])}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#isEqualTo(String)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#isEqualTo(ByteBuffer)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#isEqualTo(String, Charset)}</code>.
+ *
+ * @author Jean de Leeuw
+ */
+public class ByteBuffer_isEqualTo_Test {
 
   @Test
   public void should_pass_when_buffer_equals_expected_string_with_default_charset() {
@@ -39,7 +49,7 @@ public class ByteBuffer_equals_Test {
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).isEqualTo(expected))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldBeEqualTo(expected, buffer).create());
+      .hasMessage(contentsShouldBeEqualTo(expected, buffer, Charset.defaultCharset()).create());
   }
 
   @Test
@@ -60,7 +70,19 @@ public class ByteBuffer_equals_Test {
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).isEqualTo(expected, specified))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldBeEqualTo(expected, buffer).create());
+      .hasMessage(contentsShouldBeEqualTo(expected, buffer, specified).create());
+  }
+
+  @Test
+  public void should_fail_when_buffer_does_not_equals_expected_string_with_different_charsets() {
+    String content = "test";
+    Charset actualCharset = Charsets.UTF_8;
+    Charset expectedCharset = Charsets.UTF_16;
+
+    ByteBuffer buffer = actualCharset.encode(content);
+    assertThatThrownBy(() -> assertThat(buffer).isEqualTo(content, expectedCharset))
+      .isInstanceOf(AssertionError.class)
+      .hasMessage(contentsShouldBeEqualTo(content, buffer, expectedCharset).create());
   }
 
   @Test

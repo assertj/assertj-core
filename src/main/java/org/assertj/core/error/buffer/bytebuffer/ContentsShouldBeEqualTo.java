@@ -10,20 +10,35 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.error.bytebuffer;
+package org.assertj.core.error.buffer.bytebuffer;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.Hexadecimals;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
+/**
+ * Creates an error message indicating that buffer's expected content and its actual content
+ * do no match.
+ *
+ * @author Jean de Leeuw
+ */
 public class ContentsShouldBeEqualTo extends BasicErrorMessageFactory {
 
   private static final String CONTENTS_SHOULD_EQUAL = "%nExpected the contents of%n  <%s>%nto be equal to%n  <%s>";
 
-  public static ErrorMessageFactory contentsShouldBeEqualTo(String expected, ByteBuffer actual) {
-    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(), " ");
+  /**
+   * Creates a new <code>{@link ContentsShouldBeEqualTo}</code>.
+   *
+   * @param expected the string representing the expected content of the buffer.
+   * @param actual the actual buffer in the failed assertion.
+   * @param charset the charset in which the content of the buffer is encoded.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory contentsShouldBeEqualTo(String expected, ByteBuffer actual, Charset charset) {
+    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(charset), " ");
     return new ContentsShouldBeEqualTo(expected, actual);
   }
 

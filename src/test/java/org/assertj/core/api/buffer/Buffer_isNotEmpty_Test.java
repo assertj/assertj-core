@@ -12,15 +12,20 @@
  */
 package org.assertj.core.api.buffer;
 
-import org.junit.jupiter.api.Test;
-
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+
+import org.assertj.core.api.AbstractBufferAssert;
+import org.junit.jupiter.api.Test;
+
+/**
+ * Tests for <code>{@link AbstractBufferAssert#isNotEmpty()}</code>.
+ * @author Jean de Leeuw
+ */
 public class Buffer_isNotEmpty_Test {
 
   @Test

@@ -14,6 +14,11 @@ package org.assertj.core.api;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Assertions for {@link java.nio.ByteBuffer}.
+ *
+ * @author Jean de Leeuw
+ */
 public class ByteBufferAssert extends AbstractByteBufferAssert<ByteBufferAssert> {
 
   public ByteBufferAssert(ByteBuffer actual) {

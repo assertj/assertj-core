@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 /**
  * @author Mariusz Smykula
+ * @author Jean de Leeuw
  */
 public class Hexadecimals {
 
@@ -24,6 +25,14 @@ public class Hexadecimals {
     return new String(new char[] { HEX_ARRAY[v >>> 4], HEX_ARRAY[v & 0x0F] });
   }
 
+  /**
+   * Returns the byte array as a hexadecimal string.
+   * It will place the given separator between all hexadecimal numbers.
+   *
+   * @param array the byte array to represent as a hexadecimal string.
+   * @param separator the separator to use between the hexadecimal numbers.
+   * @return A string consisting of hexadecimal numbers representing the given byte array.
+   */
   public static String byteArrayToHexString(byte[] array, String separator) {
     StringBuilder sb = new StringBuilder();
     for (byte b : array) {

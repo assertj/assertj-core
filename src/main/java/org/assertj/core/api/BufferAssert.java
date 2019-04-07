@@ -14,6 +14,11 @@ package org.assertj.core.api;
 
 import java.nio.Buffer;
 
+/**
+ * Assertions for {@link java.nio.Buffer}.
+ *
+ * @author Jean de Leeuw
+ */
 public class BufferAssert extends AbstractBufferAssert<BufferAssert, Buffer> {
 
   public BufferAssert(Buffer buffer) {

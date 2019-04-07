@@ -75,14 +75,6 @@ import org.assertj.core.util.introspection.FieldSupport;
 @CheckReturnValue
 public class AssertionsForClassTypes {
 
-  public static BufferAssert assertThat(Buffer actual) {
-    return new BufferAssert(actual);
-  }
-
-  public static ByteBufferAssert assertThat(ByteBuffer actual) {
-    return new ByteBufferAssert(actual);
-  }
-
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
@@ -93,6 +85,28 @@ public class AssertionsForClassTypes {
    */
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.Buffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static BufferAssert assertThat(Buffer actual) {
+    return new BufferAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.ByteBuffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return new ByteBufferAssert(actual);
   }
 
   /**

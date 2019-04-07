@@ -10,20 +10,34 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.error.bytebuffer;
+package org.assertj.core.error.buffer.bytebuffer;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.Hexadecimals;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
+/**
+ * Creates an error message indicating that buffer's actual content does not contain the expected string.
+ *
+ * @author Jean de Leeuw
+ */
 public class ContentsShouldContain extends BasicErrorMessageFactory {
 
   private static final String CONTENTS_SHOULD_CONTAIN = "%nExpected the contents of%n  <%s>%nto contain%n  <%s>";
 
-  public static ErrorMessageFactory contentsShouldContain(String expected, ByteBuffer actual) {
-    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(), " ");
+  /**
+   * Creates a new <code>{@link ContentsShouldContain}</code>.
+   *
+   * @param expected the string that is expected to contained in the buffer.
+   * @param actual the actual buffer in the failed assertion.
+   * @param charset the charset in which the content of the buffer is encoded.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory contentsShouldContain(String expected, ByteBuffer actual, Charset charset) {
+    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(charset), " ");
     return new ContentsShouldContain(expected, actual);
   }
 

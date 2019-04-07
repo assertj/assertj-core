@@ -12,16 +12,26 @@
  */
 package org.assertj.core.api.bytebuffer;
 
-import com.google.common.base.Charsets;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldEndWith.contentsShouldEndWith;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.bytebuffer.ContentsShouldEndWith.contentsShouldEndWith;
+import org.junit.jupiter.api.Test;
 
+import com.google.common.base.Charsets;
+
+/**
+ * Tests for :
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#endsWith(byte[])}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#endsWith(String)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#endsWith(ByteBuffer)}</code>.
+ * <code>{@link org.assertj.core.api.AbstractByteBufferAssert#endsWith(String, Charset)}</code>.
+ *
+ * @author Jean de Leeuw
+ */
 public class ByteBuffer_endsWith_Test {
 
   @Test
@@ -38,7 +48,7 @@ public class ByteBuffer_endsWith_Test {
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).endsWith(expected))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldEndWith(expected, buffer).create());
+      .hasMessage(contentsShouldEndWith(expected, buffer, Charset.defaultCharset()).create());
   }
 
   @Test
@@ -58,7 +68,20 @@ public class ByteBuffer_endsWith_Test {
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).endsWith(expected, specified))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldEndWith(expected, buffer).create());
+      .hasMessage(contentsShouldEndWith(expected, buffer, specified).create());
+  }
+
+  @Test
+  public void should_fail_when_buffer_does_not_end_with_expected_string_with_different_charsets() {
+    String fullContent = "test";
+    String endsWithContent = "st";
+    Charset actualCharset = Charsets.UTF_8;
+    Charset expectedCharset = Charsets.UTF_16;
+
+    ByteBuffer buffer = actualCharset.encode(fullContent);
+    assertThatThrownBy(() -> assertThat(buffer).endsWith(endsWithContent, expectedCharset))
+      .isInstanceOf(AssertionError.class)
+      .hasMessage(contentsShouldEndWith(endsWithContent, buffer, expectedCharset).create());
   }
 
   @Test

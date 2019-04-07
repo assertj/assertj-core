@@ -145,14 +145,6 @@ public class Assertions {
    */
   protected Assertions() {}
 
-  public static BufferAssert assertThat(Buffer actual) {
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
-  public static ByteBufferAssert assertThat(ByteBuffer actual) {
-    return AssertionsForClassTypes.assertThat(actual);
-  }
-
   /**
    * Create assertion for {@link Predicate}.
    *
@@ -226,6 +218,28 @@ public class Assertions {
    */
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.Buffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static BufferAssert assertThat(Buffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.ByteBuffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
   }
 
   /**

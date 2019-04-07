@@ -17,10 +17,24 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import java.nio.Buffer;
 
+/**
+ * Creates an error message indicating that buffer's expected length and its actual length
+ * do no match.
+ *
+ * @author Jean de Leeuw
+ */
 public class ShouldHaveLength extends BasicErrorMessageFactory {
 
   private static final String SHOULD_HAVE_LENGTH = "%nExpected%n  <%s>%nto have length%n  <%s>%nbut was%n  <%s>%n";
 
+  /**
+   * Creates a new <code>{@link ShouldHaveLength}</code>.
+   *
+   * @param expected the expected length of the buffer in the failed assertion.
+   * @param actual the actual length of the buffer in the failed assertion.
+   * @param buffer the actual buffer in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
   public static ErrorMessageFactory shouldHaveLength(int expected, int actual, Buffer buffer) {
     return new ShouldHaveLength(expected, actual, buffer);
   }

@@ -17,10 +17,21 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import java.nio.Buffer;
 
+/**
+ * Creates an error message indicating that the buffer has not been flipped.
+ *
+ * @author Jean de Leeuw
+ */
 public class ShouldBeFlipped extends BasicErrorMessageFactory {
 
   private static final String SHOULD_BE_FLIPPED = "%nExpected%n  <%s>%nto be flipped.%n";
 
+  /**
+   * Creates a new <code>{@link ShouldBeFlipped}</code>.
+   *
+   * @param actual the actual buffer in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
   public static ErrorMessageFactory shouldBeFlipped(Buffer actual) {
     return new ShouldBeFlipped(actual);
   }

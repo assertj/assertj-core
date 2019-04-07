@@ -21,6 +21,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
 
+/**
+ * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasLength(int)}</code>.
+ * @author Jean de Leeuw
+ */
 public class Buffer_hasLength_Test {
 
   @Test
