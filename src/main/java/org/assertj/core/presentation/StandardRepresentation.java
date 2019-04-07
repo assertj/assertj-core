@@ -296,8 +296,11 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(ByteBuffer b) {
     String separator = " ";
-    int arrowLocation = b.position() * (2 + separator.length());  // 2 = byte representation length in chars.
     String result = Hexadecimals.byteArrayToHexString(b.array(), separator);
+    int arrowLocation = b.position() * (2 + separator.length());  // 2 = byte representation length in chars.
+    if (b.position() == b.capacity()) {  // Accomodate for no separator at the end
+      arrowLocation--;
+    }
     result = "[" + result.substring(0, arrowLocation) + "->" + result.substring(arrowLocation) + "]";
     return result;
   }
