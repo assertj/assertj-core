@@ -1299,6 +1299,8 @@ public class Assertions {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * <p>
+   * Default is {@value org.assertj.core.configuration.Configuration#REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE}.
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
@@ -1516,7 +1518,7 @@ public class Assertions {
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
-   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   * @param allowExtractingPrivateFields allow private fields extraction. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_EXTRACTING_PRIVATE_FIELDS}.
    */
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
     FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
@@ -1534,7 +1536,7 @@ public class Assertions {
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
-   * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
+   * @param allowComparingPrivateFields allow private fields comparison. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_COMPARING_PRIVATE_FIELDS}.
    */
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
     FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
@@ -2005,7 +2007,7 @@ public class Assertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
@@ -2019,7 +2021,7 @@ public class Assertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
@@ -2455,7 +2457,8 @@ public class Assertions {
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
-   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ssX, " +
+   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSSX, yyyy-MM-dd'T'HH:mm:ss.SSS, " +
+   *                            "yyyy-MM-dd'T'HH:mm:ssX, " +
    *                            "yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
    * }
    *
@@ -2501,7 +2504,8 @@ public class Assertions {
    *   assertThat(date).isEqualTo("2003/04/26");
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage("Failed to parse 2003/04/26 with any of these date formats: " +
-   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ssX, " +
+   *                            "[yyyy-MM-dd'T'HH:mm:ss.SSSX, yyyy-MM-dd'T'HH:mm:ss.SSS, " +
+   *                            "yyyy-MM-dd'T'HH:mm:ssX, " +
    *                            "yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
    * }
    *
@@ -2525,6 +2529,7 @@ public class Assertions {
    * <p>
    * Defaults date format are:
    * <ul>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSSX</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code></li>

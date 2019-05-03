@@ -10,21 +10,9 @@
  *
  * Copyright 2012-2019 the original author or authors.
  */
-package org.assertj.core.api;
+@NonNullApi
+@NonNullFields
+package org.assertj.core.api.exception;
 
-import static org.assertj.core.util.Lists.newArrayList;
-
-import org.junit.Rule;
-import org.junit.Test;
-
-public class Java6JUnitSoftAssertionsSuccessTest {
-  @SuppressWarnings("deprecation")
-  @Rule
-  public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
-
-  @Test
-  public void all_assertions_should_pass() {
-    softly.assertThat(1).isEqualTo(1);
-    softly.assertThat(newArrayList(1, 2)).containsOnly(1, 2);
-  }
-}
+import org.assertj.core.annotations.NonNullApi;
+import org.assertj.core.annotations.NonNullFields;

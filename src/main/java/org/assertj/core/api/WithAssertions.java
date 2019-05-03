@@ -207,7 +207,7 @@ public interface WithAssertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
@@ -220,7 +220,7 @@ public interface WithAssertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */

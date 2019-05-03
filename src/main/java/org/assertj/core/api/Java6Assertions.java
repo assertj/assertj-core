@@ -66,11 +66,14 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
  * Assertions compatible with Android. Duplicated from {@link Assertions}.
  *
  * @see Assertions
  */
 @CheckReturnValue
+@Deprecated
 public class Java6Assertions {
 
   /**
@@ -1761,7 +1764,7 @@ public class Java6Assertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
@@ -1775,7 +1778,7 @@ public class Java6Assertions {
    *
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
-   * @return the created {@code AnyOf}.
+   * @return the created {@code AllOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
