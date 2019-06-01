@@ -47,16 +47,14 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * <p>
    * Example:
    *
-   * <pre><code class='java'>
-   * Buffer buffer = ByteBuffer.allocate(10);
+   * <pre><code class='java'> Buffer buffer = ByteBuffer.allocate(10);
    *
    * // this assertion succeeds ...
    * buffer.flip();
    * assertThat(buffer).isFlipped();
    *
    * // ... but this one fails as "allocate" does not flip the buffer.
-   * assertThat(buffer).isFlipped();
-   * </code></pre>
+   * assertThat(ByteBuffer.allocate(10)).isFlipped();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
@@ -73,15 +71,13 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * // this assertion succeeds ...
+   * <pre><code class='java'> // this assertion succeeds ...
    * Buffer buffer = ByteBuffer.wrap("".getBytes());
    * assertThat(buffer).isEmpty();
    *
    * // ... but this one fails as "buffer" is not empty.
    * Buffer buffer = ByteBuffer.wrap("test".getBytes());
-   * assertThat(buffer).isEmpty();
-   * </code></pre>
+   * assertThat(buffer).isEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
@@ -100,15 +96,13 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * // this assertion succeeds ...
+   * <pre><code class='java'> // this assertion succeeds ...
    * Buffer buffer = ByteBuffer.wrap("test".getBytes());
    * assertThat(buffer).isNotEmpty();
    *
    * // ... but this one fails as "buffer" is empty.
    * Buffer buffer = ByteBuffer.wrap("".getBytes());
-   * assertThat(buffer).isNotEmpty();
-   * </code></pre>
+   * assertThat(buffer).isNotEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
@@ -127,16 +121,14 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * byte[] testArray = "test".getBytes();
+   * <pre><code class='java'> byte[] testArray = "test".getBytes();
    * Buffer buffer = ByteBuffer.wrap(testArray);
    *
    * // this assertion succeeds ...
    * assertThat(buffer).hasLength(testArray.length);
    *
    * // ... but this one fails as "buffer" has a different length than the given expected value.
-   * assertThat(buffer).hasLength(testArray.length - 1);
-   * </code></pre>
+   * assertThat(buffer).hasLength(testArray.length - 1);</code></pre>
    *
    * @param expected integer value representing the expected length of the buffer.
    * @return {@code this} assertion object.
@@ -159,8 +151,7 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * byte[] testArray = "test".getBytes();
+   * <pre><code class='java'> byte[] testArray = "test".getBytes();
    * ByteBuffer buffer = ByteBuffer.allocate(10);
    * buffer.put(testArray);
    * buffer.flip();
@@ -169,8 +160,7 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * assertThat(buffer).hasRemainingLength(10 - testArray.length);
    *
    * // ... but this one fails as "buffer" has a different remaining length than the given expected value.
-   * assertThat(buffer).hasRemainingLength(10);
-   * </code></pre>
+   * assertThat(buffer).hasRemainingLength(10);</code></pre>
    *
    * @param expected integer value representing the expected length of the buffer.
    * @return {@code this} assertion object.

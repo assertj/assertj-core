@@ -57,15 +57,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).isEqualTo("test");
    *
    * // ... but this one fails as the content of "buffer" does not equal the given expected string.
-   * assertThat(buffer).isEqualTo("test two");
-   * </code></pre>
+   * assertThat(buffer).isEqualTo("test two");</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -87,8 +85,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
+   * <pre><code class='java'> ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
    *
    * // this assertion succeeds ...
    * assertThat(buffer).isEqualTo("test", StandardCharsets.UTF_8);
@@ -97,8 +94,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * assertThat(buffer).isEqualTo("test two", StandardCharsets.UTF_8);
    *
    * // ... this one also fails but because the charsets do not match.
-   * assertThat(buffer).isEqualTo("test", StandardCharsets.UTF_16)
-   * </code></pre>
+   * assertThat(buffer).isEqualTo("test", StandardCharsets.UTF_16);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -119,15 +115,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).isEqualTo("test".getBytes());
    *
    * // ... but this one fails as the content of "buffer" does not equal the given expected byte array.
-   * assertThat(buffer).isEqualTo("test two".getBytes());
-   * </code></pre>
+   * assertThat(buffer).isEqualTo("test two".getBytes());</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -147,8 +141,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * ByteBuffer expected = ByteBuffer.wrap("test".getBytes());
@@ -156,8 +149,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * // ... but this one fails as the content of "buffer" does not equal the given expected {@code ByteBuffer}.
    * ByteBuffer expected = ByteBuffer.wrap("test two".getBytes());
-   * assertThat(actual).isEqualTo(expected);
-   * </code></pre>
+   * assertThat(actual).isEqualTo(expected);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -178,15 +170,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).contains("es");
    *
    * // ... but this one fails as the content of "buffer" does not contain the given expected string.
-   * assertThat(buffer).contains("xy");
-   * </code></pre>
+   * assertThat(buffer).contains("xy");</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -208,8 +198,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
+   * <pre><code class='java'> ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
    *
    * // this assertion succeeds ...
    * assertThat(buffer).contains("es", StandardCharsets.UTF_8);
@@ -218,8 +207,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * assertThat(buffer).contains("xy", StandardCharsets.UTF_8);
    *
    * // ... this one also fails but because the charsets do not match.
-   * assertThat(buffer).contains("es", StandardCharsets.UTF_16)
-   * </code></pre>
+   * assertThat(buffer).contains("es", StandardCharsets.UTF_16);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -240,15 +228,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).contains("test".getBytes());
    *
    * // ... but this one fails as the content of "buffer" does not contain the given expected byte array.
-   * assertThat(buffer).contains("test two".getBytes());
-   * </code></pre>
+   * assertThat(buffer).contains("test two".getBytes());</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -268,8 +254,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * ByteBuffer expected = ByteBuffer.wrap("test".getBytes());
@@ -277,8 +262,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * // ... but this one fails as the content of "buffer" does not contain the given expected {@code ByteBuffer}.
    * ByteBuffer expected = ByteBuffer.wrap("test two".getBytes());
-   * assertThat(actual).contains(expected);
-   * </code></pre>
+   * assertThat(actual).contains(expected);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -299,15 +283,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).startsWith("te");
    *
    * // ... but this one fails as the content of "buffer" does not start with the given expected string.
-   * assertThat(buffer).startsWith("es");
-   * </code></pre>
+   * assertThat(buffer).startsWith("es");</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -329,8 +311,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
+   * <pre><code class='java'> ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
    *
    * // this assertion succeeds ...
    * assertThat(buffer).startsWith("test", StandardCharsets.UTF_8);
@@ -339,8 +320,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * assertThat(buffer).startsWith("test two", StandardCharsets.UTF_8);
    *
    * // ... this one also fails but because the charsets do not match.
-   * assertThat(buffer).startsWith("test", StandardCharsets.UTF_16)
-   * </code></pre>
+   * assertThat(buffer).startsWith("test", StandardCharsets.UTF_16);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -361,15 +341,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).startsWith("test".getBytes());
    *
    * // ... but this one fails as the content of "buffer" does not start with the given expected byte array.
-   * assertThat(buffer).startsWith("test two".getBytes());
-   * </code></pre>
+   * assertThat(buffer).startsWith("test two".getBytes());</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -389,8 +367,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * ByteBuffer expected = ByteBuffer.wrap("test".getBytes());
@@ -398,8 +375,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * // ... but this one fails as the content of "buffer" does not start with the given expected {@code ByteBuffer}.
    * ByteBuffer expected = ByteBuffer.wrap("test two".getBytes());
-   * assertThat(actual).startsWith(expected);
-   * </code></pre>
+   * assertThat(actual).startsWith(expected);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -420,15 +396,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).endsWith("st");
    *
    * // ... but this one fails as the content of "buffer" does not end with the given expected string.
-   * assertThat(buffer).endsWith("es");
-   * </code></pre>
+   * assertThat(buffer).endsWith("es");</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -450,8 +424,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
+   * <pre><code class='java'> ByteBuffer buffer = StandardCharsets.UTF_8.encode("test");
    *
    * // this assertion succeeds ...
    * assertThat(buffer).endsWith("test", StandardCharsets.UTF_8);
@@ -460,8 +433,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * assertThat(buffer).endsWith("test two", StandardCharsets.UTF_8);
    *
    * // ... this one also fails but because the charsets do not match.
-   * assertThat(buffer).endsWith("test", StandardCharsets.UTF_16)
-   * </code></pre>
+   * assertThat(buffer).endsWith("test", StandardCharsets.UTF_16);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -482,15 +454,13 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * assertThat(buffer).endsWith("test".getBytes());
    *
    * // ... but this one fails as the content of "buffer" does not end with the given expected byte array.
-   * assertThat(buffer).endsWith("test two".getBytes());
-   * </code></pre>
+   * assertThat(buffer).endsWith("test two".getBytes());</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
@@ -510,8 +480,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * Example:
    *
-   * <pre><code class='java'>
-   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   * <pre><code class='java'> ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
    *
    * // this assertion succeeds ...
    * ByteBuffer expected = ByteBuffer.wrap("test".getBytes());
@@ -519,8 +488,7 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    *
    * // ... but this one fails as the content of "buffer" does not end with the given expected {@code ByteBuffer}.
    * ByteBuffer expected = ByteBuffer.wrap("test two".getBytes());
-   * assertThat(actual).endsWith(expected);
-   * </code></pre>
+   * assertThat(actual).endsWith(expected);</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
