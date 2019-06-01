@@ -168,8 +168,8 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
   public SELF hasRemainingLength(int expected) {
     isFlipped();
 
-    int remaining_length = actual.capacity() - actual.limit();
-    if (remaining_length != expected) throwAssertionError(shouldHaveRemainingLength(expected, remaining_length, actual));
+    int remainingLength = actual.capacity() - actual.limit();
+    if (remainingLength != expected) throwAssertionError(shouldHaveRemainingLength(expected, remainingLength, actual));
     return myself;
   }
 }
