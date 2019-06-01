@@ -85,7 +85,6 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @throws AssertionError if the actual {@code Buffer} is not empty.
    */
   public SELF isEmpty() {
-    isNotNull();
     isFlipped();
     if (actual.limit() != 0) throwAssertionError(shouldBeEmpty(actual));
     return myself;
@@ -110,7 +109,6 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @throws AssertionError if the actual {@code Buffer} is empty.
    */
   public SELF isNotEmpty() {
-    isNotNull();
     isFlipped();
     if (actual.limit() == 0) throwAssertionError(shouldNotBeEmpty());
     return myself;
@@ -137,7 +135,6 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @throws AssertionError if the actual {@code Buffer} length is different than the given expected value.
    */
   public SELF hasLength(int expected) {
-    isNotNull();
     isFlipped();
     if (actual.limit() != expected) throwAssertionError(shouldHaveLength(expected, actual.limit(), actual));
     return myself;
@@ -169,7 +166,6 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @throws AssertionError if the actual {@code Buffer}s remaining length is different than the given expected value.
    */
   public SELF hasRemainingLength(int expected) {
-    isNotNull();
     isFlipped();
 
     int remaining_length = actual.capacity() - actual.limit();

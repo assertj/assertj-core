@@ -71,7 +71,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not equal the given expected string.
    */
   public SELF isEqualTo(String expected) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual));
@@ -102,7 +101,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not equal the given expected string.
    */
   public SELF isEqualTo(String expected, Charset charset) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual), charset);
@@ -129,7 +127,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not equal the given expected byte array.
    */
   public SELF isEqualTo(byte[] expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertContainsExactly(info, getContent(actual), expected);
@@ -157,7 +154,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not equal the given expected {@code ByeBuffer}.
    */
   public SELF isEqualTo(ByteBuffer expected) {
-    isNotNull();
     isFlipped();
 
     comparables.assertEqual(info, actual, expected);
@@ -184,7 +180,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not contain the given expected string.
    */
   public SELF contains(String expected) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual));
@@ -215,7 +210,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not contain the given expected string.
    */
   public SELF contains(String expected, Charset charset) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual), charset);
@@ -242,7 +236,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not contain the given expected byte array.
    */
   public SELF contains(byte[] expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertContains(info, getContent(actual), expected);
@@ -270,7 +263,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not contain the given expected {@code ByeBuffer}.
    */
   public SELF contains(ByteBuffer expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertContains(info, getContent(actual), getContent(expected));
@@ -297,7 +289,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not start with the given expected string.
    */
   public SELF startsWith(String expected) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual));
@@ -328,7 +319,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not start with the given expected string.
    */
   public SELF startsWith(String expected, Charset charset) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual), charset);
@@ -355,7 +345,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not start with the given expected byte array.
    */
   public SELF startsWith(byte[] expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertStartsWith(info, getContent(actual), expected);
@@ -383,7 +372,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not start with the given expected {@code ByeBuffer}.
    */
   public SELF startsWith(ByteBuffer expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertStartsWith(info, getContent(actual), getContent(expected));
@@ -410,7 +398,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not end with the given expected string.
    */
   public SELF endsWith(String expected) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual));
@@ -441,7 +428,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not end with the given expected string.
    */
   public SELF endsWith(String expected, Charset charset) {
-    isNotNull();
     isFlipped();
 
     String contentString = new String(getContent(actual), charset);
@@ -468,7 +454,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not end with the given expected byte array.
    */
   public SELF endsWith(byte[] expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertEndsWith(info, getContent(actual), expected);
@@ -496,7 +481,6 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
    * @throws AssertionError if the actual {@code ByteBuffer}s content does not end with the given expected {@code ByeBuffer}.
    */
   public SELF endsWith(ByteBuffer expected) {
-    isNotNull();
     isFlipped();
 
     byteArrays.assertEndsWith(info, getContent(actual), getContent(expected));
