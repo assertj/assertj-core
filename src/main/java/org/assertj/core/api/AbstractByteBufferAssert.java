@@ -488,11 +488,11 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
   }
 
   private byte[] getContent(ByteBuffer buffer) {
-    byte[] content = new byte[buffer.limit()];
-    for (int i = 0; i < content.length; i++) {
-      content[i] = buffer.get();
-    }
-    buffer.rewind();
+    int position = buffer.position();
+    byte[] content = new byte[buffer.remaining()];
+
+    buffer.get(content); // copy the content of the buffer into the array
+    buffer.position(position); // reset the position of the buffer back to the original position
     return content;
   }
 }
