@@ -18,28 +18,28 @@ import org.assertj.core.error.ErrorMessageFactory;
 import java.nio.Buffer;
 
 /**
- * Creates an error message indicating that buffer's expected remaining length and its actual remaining length
+ * Creates an error message indicating that buffer's expected remaining capacity and its actual remaining capacity
  * do no match.
  *
  * @author Jean de Leeuw
  */
-public class ShouldHaveRemainingLength extends BasicErrorMessageFactory {
+public class ShouldHaveRemainingCapacity extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_REMAINING_LENGTH = "%nExpected%n  <%s>%nto have remaining length%n  <%s>%nbut was%n  <%s>%n";
+  private static final String SHOULD_HAVE_REMAINING_CAPACITY = "%nExpected%n  <%s>%nto have remaining capacity%n  <%s>%nbut was%n  <%s>%n";
 
   /**
-   * Creates a new <code>{@link ShouldHaveRemainingLength}</code>.
+   * Creates a new <code>{@link ShouldHaveRemainingCapacity}</code>.
    *
-   * @param expected the expected remaining length of the buffer in the failed assertion.
-   * @param actual the actual remaining length of the buffer in the failed assertion.
+   * @param expected the expected remaining capacity of the buffer in the failed assertion.
+   * @param actual the actual remaining capacity of the buffer in the failed assertion.
    * @param buffer the actual buffer in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveRemainingLength(int expected, int actual, Buffer buffer) {
-    return new ShouldHaveRemainingLength(expected, actual, buffer);
+  public static ErrorMessageFactory shouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
+    return new ShouldHaveRemainingCapacity(expected, actual, buffer);
   }
 
-  private ShouldHaveRemainingLength(int expected, int actual, Buffer buffer) {
-    super(SHOULD_HAVE_REMAINING_LENGTH, buffer, expected, actual);
+  private ShouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
+    super(SHOULD_HAVE_REMAINING_CAPACITY, buffer, expected, actual);
   }
 }

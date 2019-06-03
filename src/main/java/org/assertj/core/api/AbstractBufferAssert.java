@@ -16,7 +16,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
-import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
+import static org.assertj.core.error.buffer.ShouldHaveRemainingCapacity.shouldHaveRemainingCapacity;
 
 import java.nio.Buffer;
 
@@ -141,9 +141,9 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
   }
 
   /**
-   * Verifies that the actual {@code Buffer} has a remaining length equal to the given expected value.
+   * Verifies that the actual {@code Buffer} has a remaining capacity equal to the given expected value.
    *
-   * The remaining length is the amount of space the buffer still has left, or in other words the space in the buffer
+   * The remaining capacity is the amount of space the buffer still has left, or in other words the space in the buffer
    * that is not filled. It is defined as the capacity of the buffer minus the limit of the buffer.
    *
    * Example:
@@ -154,22 +154,22 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * buffer.flip();
    *
    * // this assertion succeeds ...
-   * assertThat(buffer).hasRemainingLength(10 - testArray.length);
+   * assertThat(buffer).hasRemainingCapacity(10 - testArray.length);
    *
-   * // ... but this one fails as "buffer" has a different remaining length than the given expected value.
-   * assertThat(buffer).hasRemainingLength(10);</code></pre>
+   * // ... but this one fails as "buffer" has a different remaining capacity than the given expected value.
+   * assertThat(buffer).hasRemainingCapacity(10);</code></pre>
    *
-   * @param expected integer value representing the expected length of the buffer.
+   * @param expected integer value representing the expected remaining capacity of the buffer.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
    * @throws AssertionError if the actual {@code Buffer} has not been flipped.
-   * @throws AssertionError if the actual {@code Buffer}s remaining length is different than the given expected value.
+   * @throws AssertionError if the actual {@code Buffer}s remaining capacity is different than the given expected value.
    */
-  public SELF hasRemainingLength(int expected) {
+  public SELF hasRemainingCapacity(int expected) {
     isFlipped();
 
     int remainingLength = actual.capacity() - actual.limit();
-    if (remainingLength != expected) throwAssertionError(shouldHaveRemainingLength(expected, remainingLength, actual));
+    if (remainingLength != expected) throwAssertionError(shouldHaveRemainingCapacity(expected, remainingLength, actual));
     return myself;
   }
 }

@@ -20,13 +20,13 @@ import java.nio.ByteBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
+import static org.assertj.core.error.buffer.ShouldHaveRemainingCapacity.shouldHaveRemainingCapacity;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasRemainingLength(int)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasRemainingCapacity(int)}</code>.
  * @author Jean de Leeuw
  */
-public class Buffer_hasRemainingLength_Test {
+public class Buffer_hasRemainingCapacity_Test {
 
   private Buffer buffer;
   private final int capacity = 10;
@@ -42,15 +42,15 @@ public class Buffer_hasRemainingLength_Test {
   }
 
   @Test
-  public void should_pass_when_expected_remaining_length_matches() {
-    assertThat(buffer).hasRemainingLength(capacity - testArray.length);
+  public void should_pass_when_expected_remaining_capacity_matches() {
+    assertThat(buffer).hasRemainingCapacity(capacity - testArray.length);
   }
 
   @Test
-  public void should_fail_when_expected_remaining_length_mismatches() {
+  public void should_fail_when_expected_remaining_capacity_mismatches() {
     int remainingLength = capacity - testArray.length;
-    assertThatThrownBy(() -> assertThat(buffer).hasRemainingLength(remainingLength - 1))
+    assertThatThrownBy(() -> assertThat(buffer).hasRemainingCapacity(remainingLength - 1))
       .isInstanceOf(AssertionError.class)
-      .hasMessage(shouldHaveRemainingLength(remainingLength - 1, remainingLength, buffer).create());
+      .hasMessage(shouldHaveRemainingCapacity(remainingLength - 1, remainingLength, buffer).create());
   }
 }
