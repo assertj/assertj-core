@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
+import static org.assertj.core.error.buffer.ShouldHaveCapacity.shouldHaveCapacity;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
 import static org.assertj.core.error.buffer.ShouldHaveRemainingCapacity.shouldHaveRemainingCapacity;
 
@@ -137,6 +138,31 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
   public SELF hasLength(int expected) {
     isFlipped();
     if (actual.limit() != expected) throwAssertionError(shouldHaveLength(expected, actual.limit(), actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Buffer} has a capacity equal to the given expected value.
+   *
+   * Example:
+   *
+   * <pre><code class='java'> ByteBuffer buffer = ByteBuffer.wrap("test".getBytes());
+   *
+   * // this assertion succeeds ...
+   * assertThat(buffer).hasCapacity(4);
+   *
+   * // ... but this one fails as "buffer" has a different capacity than the given expected value.
+   * assertThat(buffer).hasCapacity(3);</code></pre>
+   *
+   * @param expected integer value representing the expected capacity of the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
+   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
+   * @throws AssertionError if the actual {@code Buffer}s capacity is different than the given expected value.
+   */
+  public SELF hasCapacity(int expected) {
+    isFlipped();
+    if (actual.capacity() != expected) throwAssertionError(shouldHaveCapacity(expected, actual.capacity(), actual));
     return myself;
   }
 

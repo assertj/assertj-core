@@ -18,28 +18,28 @@ import org.assertj.core.error.ErrorMessageFactory;
 import java.nio.Buffer;
 
 /**
- * Creates an error message indicating that buffer's expected remaining capacity and its actual remaining capacity
+ * Creates an error message indicating that buffer's expected capacity and its actual capacity
  * do not match.
  *
  * @author Jean de Leeuw
  */
-public class ShouldHaveRemainingCapacity extends BasicErrorMessageFactory {
+public class ShouldHaveCapacity extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_REMAINING_CAPACITY = "%nExpected%n  <%s>%nto have remaining capacity%n  <%s>%nbut was%n  <%s>%n";
+  private static final String SHOULD_HAVE_CAPACITY = "%nExpected%n  <%s>%nto have capacity%n  <%s>%nbut was%n  <%s>%n";
 
   /**
-   * Creates a new <code>{@link ShouldHaveRemainingCapacity}</code>.
+   * Creates a new <code>{@link ShouldHaveCapacity}</code>.
    *
-   * @param expected the expected remaining capacity of the buffer in the failed assertion.
-   * @param actual the actual remaining capacity of the buffer in the failed assertion.
+   * @param expected the expected capacity of the buffer in the failed assertion.
+   * @param actual the actual capacity of the buffer in the failed assertion.
    * @param buffer the actual buffer in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
-    return new ShouldHaveRemainingCapacity(expected, actual, buffer);
+  public static ErrorMessageFactory shouldHaveCapacity(int expected, int actual, Buffer buffer) {
+    return new ShouldHaveCapacity(expected, actual, buffer);
   }
 
-  private ShouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
-    super(SHOULD_HAVE_REMAINING_CAPACITY, buffer, expected, actual);
+  private ShouldHaveCapacity(int expected, int actual, Buffer buffer) {
+    super(SHOULD_HAVE_CAPACITY, buffer, expected, actual);
   }
 }
