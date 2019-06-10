@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
 import static org.assertj.core.error.buffer.ShouldHaveCapacity.shouldHaveCapacity;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
 import static org.assertj.core.error.buffer.ShouldHaveRemainingCapacity.shouldHaveRemainingCapacity;
@@ -38,37 +37,10 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
   }
 
   /**
-   * Verifies that the actual {@code Buffer} has been flipped.
-   *
-   * <b>Important:</b>
-   * Due to the limitations of the Buffer API there is, short of looping over the buffer and checking the content one
-   * by one, no way to check if the Buffer is actually flipped. It is impossible to make a distinction between
-   * a buffer that is filled to its capacity and a buffer that simply has not been flipped (or manual repositioning
-   * of the buffer). Due to these limitations, this method only checks if the position of the buffer equals 0.
-   * <p>
-   * Example:
-   *
-   * <pre><code class='java'> Buffer buffer = ByteBuffer.allocate(10);
-   *
-   * // this assertion succeeds ...
-   * buffer.flip();
-   * assertThat(buffer).isFlipped();
-   *
-   * // ... but this one fails as "allocate" does not flip the buffer.
-   * assertThat(ByteBuffer.allocate(10)).isFlipped();</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
-   */
-  public SELF isFlipped() {
-    isNotNull();
-    if (actual.position() != 0) throwAssertionError(shouldBeFlipped(actual));
-    return myself;
-  }
-
-  /**
    * Verifies that the actual {@code Buffer} is empty.
+   *
+   * A buffer is considered as empty when the limit of the buffer
+   * is equal to zero (and therefore there is nothing to read).
    *
    * Example:
    *
@@ -82,17 +54,19 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
    * @throws AssertionError if the actual {@code Buffer} is not empty.
    */
   public SELF isEmpty() {
-    isFlipped();
+    isNotNull();
     if (actual.limit() != 0) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Buffer} is not empty.
+   *
+   * A buffer is considered as empty when the limit of the buffer
+   * is equal to zero.
    *
    * Example:
    *
@@ -106,11 +80,10 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
    * @throws AssertionError if the actual {@code Buffer} is empty.
    */
   public SELF isNotEmpty() {
-    isFlipped();
+    isNotNull();
     if (actual.limit() == 0) throwAssertionError(shouldNotBeEmpty());
     return myself;
   }
@@ -132,11 +105,11 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @param expected integer value representing the expected length of the buffer.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
+   * @throws AssertionError if the actual {@code Buffer} is empty.
    * @throws AssertionError if the actual {@code Buffer} length is different than the given expected value.
    */
   public SELF hasLength(int expected) {
-    isFlipped();
+    isNotEmpty();
     if (actual.limit() != expected) throwAssertionError(shouldHaveLength(expected, actual.limit(), actual));
     return myself;
   }
@@ -157,11 +130,11 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @param expected integer value representing the expected capacity of the buffer.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
+   * @throws AssertionError if the actual {@code Buffer} is empty.
    * @throws AssertionError if the actual {@code Buffer}s capacity is different than the given expected value.
    */
   public SELF hasCapacity(int expected) {
-    isFlipped();
+    isNotEmpty();
     if (actual.capacity() != expected) throwAssertionError(shouldHaveCapacity(expected, actual.capacity(), actual));
     return myself;
   }
@@ -188,11 +161,11 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * @param expected integer value representing the expected remaining capacity of the buffer.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
-   * @throws AssertionError if the actual {@code Buffer} has not been flipped.
+   * @throws AssertionError if the actual {@code Buffer} is empty.
    * @throws AssertionError if the actual {@code Buffer}s remaining capacity is different than the given expected value.
    */
   public SELF hasRemainingCapacity(int expected) {
-    isFlipped();
+    isNotEmpty();
 
     int remainingLength = actual.capacity() - actual.limit();
     if (remainingLength != expected) throwAssertionError(shouldHaveRemainingCapacity(expected, remainingLength, actual));
