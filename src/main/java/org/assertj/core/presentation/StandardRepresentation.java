@@ -25,6 +25,8 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -59,6 +61,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.DateUtil;
+import org.assertj.core.util.Hexadecimals;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -193,6 +196,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
     if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
     if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    if (object instanceof ByteBuffer) return toStringOf((ByteBuffer) object);
     return object == null ? null : fallbackToStringOf(object);
   }
 
@@ -300,6 +304,21 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
+  }
+
+  protected String toStringOf(Buffer b) {
+    return b.toString();
+  }
+
+  protected String toStringOf(ByteBuffer b) {
+    String separator = " ";
+    String result = Hexadecimals.byteArrayToHexString(b.array(), separator);
+    int arrowLocation = b.position() * (2 + separator.length());  // 2 = byte representation length in chars.
+    if (b.position() == b.capacity()) {  // Accommodate for no separator at the end
+      arrowLocation--;
+    }
+    result = "[" + result.substring(0, arrowLocation) + "->" + result.substring(arrowLocation) + "]";
+    return result;
   }
 
   protected String toStringOf(CompletableFuture<?> future) {

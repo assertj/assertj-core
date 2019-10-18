@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -204,6 +206,28 @@ public abstract class AbstractBDDSoftAssertions extends Java6AbstractBDDSoftAsse
   @CheckReturnValue
   public <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Buffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public BufferAssert then(Buffer actual) {
+    return proxy(BufferAssert.class, Buffer.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link ByteBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public ByteBufferAssert then(ByteBuffer actual) {
+    return proxy(ByteBufferAssert.class, ByteBuffer.class, actual);
   }
 
   /**

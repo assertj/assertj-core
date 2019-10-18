@@ -40,6 +40,8 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -748,8 +750,10 @@ public class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((Predicate<String>) null).accepts("a", "b", "c");
     // nested proxied call to isCompleted
     softly.then(new CompletableFuture<String>()).isCompletedWithValue("done");
+    //nested proxied call to isFlipped
+    softly.then((Buffer) ByteBuffer.allocate(10).put((byte) 10)).isEmpty();
     // it must be caught by softly.assertAll()
-    assertThat(softly.errorsCollected()).hasSize(4);
+    assertThat(softly.errorsCollected()).hasSize(5);
   }
 
   // bug #447
