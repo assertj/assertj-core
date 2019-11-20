@@ -18,28 +18,28 @@ import org.assertj.core.error.ErrorMessageFactory;
 import java.nio.Buffer;
 
 /**
- * Creates an error message indicating that buffer's expected remaining capacity and its actual remaining capacity
- * do not match.
+ * Creates an error message indicating that buffer's expected remaining number of elements until its limit and its
+ * actual remaining number of elements until its limit do not match.
  *
  * @author Jean de Leeuw
  */
-public class ShouldHaveRemainingCapacity extends BasicErrorMessageFactory {
+public class ShouldHaveRemaining extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_REMAINING_CAPACITY = "%nExpected%n  <%s>%nto have remaining capacity%n  <%s>%nbut was%n  <%s>%n";
+  private static final String SHOULD_HAVE_REMAINING = "%nExpected%n  <%s>%nto have%n  <%s>%nremaining number of elements but was%n  <%s>%n";
 
   /**
-   * Creates a new <code>{@link ShouldHaveRemainingCapacity}</code>.
+   * Creates a new <code>{@link ShouldHaveRemaining}</code>.
    *
-   * @param expected the expected remaining capacity of the buffer in the failed assertion.
-   * @param actual the actual remaining capacity of the buffer in the failed assertion.
+   * @param expected the expected remaining number of elements of the buffer in the failed assertion.
+   * @param actual the actual remaining number of elements of the buffer in the failed assertion.
    * @param buffer the actual buffer in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
-    return new ShouldHaveRemainingCapacity(expected, actual, buffer);
+  public static ErrorMessageFactory shouldHaveRemaining(int expected, int actual, Buffer buffer) {
+    return new ShouldHaveRemaining(expected, actual, buffer);
   }
 
-  private ShouldHaveRemainingCapacity(int expected, int actual, Buffer buffer) {
-    super(SHOULD_HAVE_REMAINING_CAPACITY, buffer, expected, actual);
+  private ShouldHaveRemaining(int expected, int actual, Buffer buffer) {
+    super(SHOULD_HAVE_REMAINING, buffer, expected, actual);
   }
 }

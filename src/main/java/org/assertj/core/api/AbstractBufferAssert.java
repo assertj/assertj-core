@@ -16,7 +16,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.buffer.ShouldHaveCapacity.shouldHaveCapacity;
 import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
-import static org.assertj.core.error.buffer.ShouldHaveRemainingCapacity.shouldHaveRemainingCapacity;
+import static org.assertj.core.error.buffer.ShouldHaveRemaining.shouldHaveRemaining;
 
 import java.nio.Buffer;
 
@@ -30,7 +30,8 @@ import java.nio.Buffer;
  *
  * @author Jean de Leeuw
  */
-public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer>
+    extends AbstractAssert<SELF, ACTUAL> {
 
   public AbstractBufferAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -58,15 +59,15 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    */
   public SELF isEmpty() {
     isNotNull();
-    if (actual.limit() != 0) throwAssertionError(shouldBeEmpty(actual));
+    if (actual.position() != actual.limit()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
   /**
    * Verifies that the actual {@code Buffer} is not empty.
    *
-   * A buffer is considered as empty when the limit of the buffer
-   * is equal to zero.
+   * A buffer is considered to not be empty when there is data that can
+   * be consumed, or in other words when the limit is not equal to zero.
    *
    * Example:
    *
@@ -84,7 +85,7 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    */
   public SELF isNotEmpty() {
     isNotNull();
-    if (actual.limit() == 0) throwAssertionError(shouldNotBeEmpty());
+    if (actual.position() == actual.limit()) throwAssertionError(shouldNotBeEmpty());
     return myself;
   }
 
@@ -140,10 +141,8 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
   }
 
   /**
-   * Verifies that the actual {@code Buffer} has a remaining capacity equal to the given expected value.
-   *
-   * The remaining capacity is the amount of space the buffer still has left, or in other words the space in the buffer
-   * that is not filled. It is defined as the capacity of the buffer minus the limit of the buffer.
+   * Verifies that the actual {@code Buffer} has a remaining number of elements until the limit equal to the given
+   * expected value.
    *
    * Example:
    *
@@ -153,22 +152,25 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * buffer.flip();
    *
    * // this assertion succeeds ...
-   * assertThat(buffer).hasRemainingCapacity(10 - testArray.length);
+   * buffer.get();
+   * assertThat(buffer).hasRemaining(testArray.length - 1);
    *
-   * // ... but this one fails as "buffer" has a different remaining capacity than the given expected value.
-   * assertThat(buffer).hasRemainingCapacity(10);</code></pre>
+   * // ... but this one fails as "buffer" has a different number of remaining elements until the limit than the
+   * // given expected value.
+   * assertThat(buffer).hasRemaining(10);</code></pre>
    *
    * @param expected integer value representing the expected remaining capacity of the buffer.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
    * @throws AssertionError if the actual {@code Buffer} is empty.
-   * @throws AssertionError if the actual {@code Buffer}s remaining capacity is different than the given expected value.
+   * @throws AssertionError if the actual {@code Buffer}s remaining number of elements is different than the given
+   *  expected value.
    */
-  public SELF hasRemainingCapacity(int expected) {
+  public SELF hasRemaining(int expected) {
     isNotEmpty();
 
-    int remainingLength = actual.capacity() - actual.limit();
-    if (remainingLength != expected) throwAssertionError(shouldHaveRemainingCapacity(expected, remainingLength, actual));
+    int remainingLength = actual.limit() - actual.position();
+    if (remainingLength != expected) throwAssertionError(shouldHaveRemaining(expected, remainingLength, actual));
     return myself;
   }
 }
