@@ -53,6 +53,15 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * Buffer buffer = ByteBuffer.wrap("test".getBytes());
    * assertThat(buffer).isEmpty();</code></pre>
    *
+   * Note: if the buffer is not flipped then IsEmpty may display weird behaviour.
+   * For example:
+   * <pre><code class='java'> // this assertion fails because not flipping the
+   * // buffer causes the limit of the buffer to be different than expected.
+   * byte[] bytes = "".getBytes();
+   * Buffer buffer = ByteBuffer.allocate(bytes.length);
+   * buffer.put(bytes);
+   * assertThat(buffer).isEmpty();
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
    * @throws AssertionError if the actual {@code Buffer} is not empty.
@@ -78,6 +87,15 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    * // ... but this one fails as "buffer" is empty.
    * Buffer buffer = ByteBuffer.wrap("".getBytes());
    * assertThat(buffer).isNotEmpty();</code></pre>
+   *
+   * Note: if the buffer is not flipped then IsNotEmpty may display weird behaviour.
+   * For example:
+   * <pre><code class='java'> // this assertion succeeds because not flipping the
+   * // buffer causes the limit of the buffer to be different than expected.
+   * byte[] bytes = "".getBytes();
+   * Buffer buffer = ByteBuffer.allocate(bytes.length);
+   * buffer.put(bytes);
+   * assertThat(buffer).isNotEmpty();
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code Buffer} is {@code null}.
