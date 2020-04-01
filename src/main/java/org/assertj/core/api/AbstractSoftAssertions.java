@@ -222,6 +222,7 @@ public class AbstractSoftAssertions implements InstanceOfAssertFactories {
     return className.contains("$ByteBuddy$");
   }
 
+  @FunctionalInterface
   public interface ThrowingRunnable {
     void run() throws Exception;
   }
