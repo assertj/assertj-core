@@ -23,6 +23,7 @@ import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
@@ -53,6 +54,9 @@ import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
  * @see Files
  */
 public abstract class PathsBaseTest {
+
+  @TempDir
+  protected Path tempDir;
 
   protected Failures failures;
   protected Paths paths;

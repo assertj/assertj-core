@@ -37,9 +37,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.PathsBaseTest;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
 import com.google.common.collect.Iterators;
-import org.junit.jupiter.api.io.TempDir;
 
 /**
  * @deprecated favor tests based on {@link PathsBaseTest} and JUnit 5 {@link TempDir}.
@@ -104,22 +104,8 @@ public class MockPathsBaseTest extends PathsBaseTest {
   Path mockEmptyRegularFile(String... names) {
     Path path = mockPath(names);
     given(nioFilesWrapper.exists(path)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(path)).willReturn(true);
     try {
       given(nioFilesWrapper.newInputStream(path)).willReturn(new ByteArrayInputStream(new byte[0]));
-    } catch (IOException e) {
-      fail("Should not happen");
-    }
-    return path;
-  }
-
-  Path mockNonEmptyRegularFile(String... names) {
-    Path path = mockPath(names);
-    given(nioFilesWrapper.exists(path)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(path)).willReturn(true);
-    try {
-      given(nioFilesWrapper.size(path)).willReturn(1L);
-      given(nioFilesWrapper.newInputStream(path)).willReturn(new ByteArrayInputStream(new byte[1]));
     } catch (IOException e) {
       fail("Should not happen");
     }
@@ -130,7 +116,6 @@ public class MockPathsBaseTest extends PathsBaseTest {
     DirectoryStream<Path> directoryItems = directoryStream(paths);
     Path path = mockPath(name);
     given(nioFilesWrapper.exists(path)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(path)).willReturn(true);
     try {
       given(nioFilesWrapper.newDirectoryStream(eq(path), any())).will(inv -> filterStream(inv.getArgument(1), directoryItems));
     } catch (IOException e) {

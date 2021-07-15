@@ -123,7 +123,6 @@ class Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test extends MockPathsB
   void should_fail_if_actual_exists_but_is_not_directory() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
     mockPathMatcher(actual);
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryContaining(INFO, actual, JAVA_SOURCE_PATTERN));
@@ -136,7 +135,6 @@ class Paths_assertIsDirectoryContaining_SyntaxAndPattern_Test extends MockPathsB
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(true);
     given(nioFilesWrapper.newDirectoryStream(eq(actual), any())).willThrow(cause);
     mockPathMatcher(actual);
     // WHEN

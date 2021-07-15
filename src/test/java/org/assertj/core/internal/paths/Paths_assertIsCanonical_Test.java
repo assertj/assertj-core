@@ -13,36 +13,45 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
-import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class Paths_assertIsCanonical_Test extends MockPathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsCanonical(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsCanonical(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_throw_PathsException_on_io_error() throws IOException {
-    final IOException exception = new IOException();
-    when(actual.toRealPath()).thenThrow(exception);
-
-    assertThatExceptionOfType(PathsException.class).isThrownBy(() -> paths.assertIsCanonical(info, actual))
-                                                   .withMessage("failed to resolve actual real path")
-                                                   .withCause(exception);
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+    // GIVEN
+    Path actual = mock(Path.class);
+    IOException exception = new IOException("boom!");
+    given(actual.toRealPath()).willThrow(exception);
+    // WHEN
+    Throwable thrown = Assertions.catchThrowable(() -> paths.assertIsCanonical(info, actual));
+    // THEN
+    then(thrown).isInstanceOf(UncheckedIOException.class)
+                .hasCause(exception);
   }
 
   @Test

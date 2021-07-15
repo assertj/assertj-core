@@ -67,7 +67,6 @@ class Paths_assertHasDigest_AlgorithmString_Test extends MockPathsBaseTest {
   void should_fail_if_actual_exists_but_is_not_file() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(false);
     // WHEN
     catchThrowable(() -> paths.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
@@ -78,7 +77,6 @@ class Paths_assertHasDigest_AlgorithmString_Test extends MockPathsBaseTest {
   void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(false);
     // WHEN
     catchThrowable(() -> paths.assertHasDigest(INFO, actual, algorithm, expected));
@@ -103,7 +101,6 @@ class Paths_assertHasDigest_AlgorithmString_Test extends MockPathsBaseTest {
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willThrow(cause);
     // WHEN
@@ -129,7 +126,6 @@ class Paths_assertHasDigest_AlgorithmString_Test extends MockPathsBaseTest {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willReturn(stream);
     // WHEN
@@ -144,7 +140,6 @@ class Paths_assertHasDigest_AlgorithmString_Test extends MockPathsBaseTest {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willReturn(stream);
     // WHEN

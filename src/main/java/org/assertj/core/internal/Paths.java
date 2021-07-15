@@ -54,6 +54,7 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
@@ -78,8 +79,6 @@ public class Paths {
   private static final String FAILED_TO_RESOLVE_ARGUMENT_REAL_PATH = "failed to resolve argument real path";
   private static final String FAILED_TO_RESOLVE_ACTUAL_REAL_PATH = "failed to resolve actual real path";
   private static final String UNABLE_TO_COMPARE_PATH_CONTENTS = "Unable to compare contents of paths:<%s> and:<%s>";
-
-  public static final String IOERROR_FORMAT = "I/O error attempting to process assertion for path: <%s>";
 
   private static final Paths INSTANCE = new Paths();
   private static final Predicate<Path> ANY = any -> true;
@@ -109,51 +108,49 @@ public class Paths {
   public void assertIsReadable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
+    if (!Files.isReadable(actual)) throw failures.failure(info, shouldBeReadable(actual));
   }
 
   public void assertIsWritable(AssertionInfo info, Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
+    if (!Files.isWritable(actual)) throw failures.failure(info, shouldBeWritable(actual));
   }
 
   public void assertIsExecutable(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
     assertExists(info, actual);
-    if (!nioFilesWrapper.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
+    if (!Files.isExecutable(actual)) throw failures.failure(info, shouldBeExecutable(actual));
   }
 
   public void assertExists(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.exists(actual)) throw failures.failure(info, shouldExist(actual));
+    if (!Files.exists(actual)) throw failures.failure(info, shouldExist(actual));
   }
 
   public void assertExistsNoFollowLinks(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.exists(actual, LinkOption.NOFOLLOW_LINKS))
-      throw failures.failure(info, shouldExistNoFollowLinks(actual));
+    if (!Files.exists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldExistNoFollowLinks(actual));
   }
 
   public void assertDoesNotExist(final AssertionInfo info, final Path actual) {
     assertNotNull(info, actual);
-    if (!nioFilesWrapper.notExists(actual, LinkOption.NOFOLLOW_LINKS))
-      throw failures.failure(info, shouldNotExist(actual));
+    if (!Files.notExists(actual, LinkOption.NOFOLLOW_LINKS)) throw failures.failure(info, shouldNotExist(actual));
   }
 
   public void assertIsRegularFile(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!nioFilesWrapper.isRegularFile(actual)) throw failures.failure(info, shouldBeRegularFile(actual));
+    if (!Files.isRegularFile(actual)) throw failures.failure(info, shouldBeRegularFile(actual));
   }
 
   public void assertIsDirectory(final AssertionInfo info, final Path actual) {
     assertExists(info, actual);
-    if (!nioFilesWrapper.isDirectory(actual)) throw failures.failure(info, shouldBeDirectory(actual));
+    if (!Files.isDirectory(actual)) throw failures.failure(info, shouldBeDirectory(actual));
   }
 
   public void assertIsSymbolicLink(final AssertionInfo info, final Path actual) {
     assertExistsNoFollowLinks(info, actual);
-    if (!nioFilesWrapper.isSymbolicLink(actual)) throw failures.failure(info, shouldBeSymbolicLink(actual));
+    if (!Files.isSymbolicLink(actual)) throw failures.failure(info, shouldBeSymbolicLink(actual));
   }
 
   public void assertIsAbsolute(final AssertionInfo info, final Path actual) {
@@ -176,7 +173,7 @@ public class Paths {
     try {
       if (!actual.equals(actual.toRealPath())) throw failures.failure(info, shouldBeCanonicalPath(actual));
     } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+      throw new UncheckedIOException(e);
     }
   }
 
@@ -234,8 +231,8 @@ public class Paths {
     try {
       long actualSize = nioFilesWrapper.size(actual);
       if (actualSize != expectedSize) throw failures.failure(info, shouldHaveSize(actual, expectedSize));
-    } catch(IOException e) {
-      throw new UncheckedIOException(format("unable to verify the size of the path: <%s>", actual), e);
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
     }
   }
 
@@ -416,7 +413,7 @@ public class Paths {
 
   public void assertIsNotEmptyDirectory(AssertionInfo info, Path actual) {
     boolean isEmptyDirectory = directoryContent(info, actual).isEmpty();
-    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty());
+    if (isEmptyDirectory) throw failures.failure(info, shouldNotBeEmpty(actual));
   }
 
   public static List<String> toPathNames(List<Path> files) {
@@ -513,7 +510,7 @@ public class Paths {
     try {
       if (nioFilesWrapper.size(actual) > 0) throw failures.failure(info, shouldBeEmpty(actual));
     } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+      throw new UncheckedIOException(e);
     }
   }
 
@@ -522,7 +519,7 @@ public class Paths {
     try {
       if (nioFilesWrapper.size(actual) == 0) throw failures.failure(info, shouldNotBeEmpty(actual));
     } catch (IOException e) {
-      throw new PathsException(FAILED_TO_RESOLVE_ACTUAL_REAL_PATH, e);
+      throw new UncheckedIOException(e);
     }
   }
 

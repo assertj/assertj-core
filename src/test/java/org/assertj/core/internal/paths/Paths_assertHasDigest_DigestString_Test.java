@@ -57,7 +57,6 @@ class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   void should_fail_if_actual_exists_but_is_not_file() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(false);
     // WHEN
     catchThrowable(() -> paths.assertHasDigest(INFO, actual, digest, expected));
     // THEN
@@ -68,7 +67,6 @@ class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
   void should_fail_if_actual_exists_but_is_not_readable() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(false);
     // WHEN
     catchThrowable(() -> paths.assertHasDigest(INFO, actual, digest, expected));
@@ -93,7 +91,6 @@ class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willThrow(cause);
     // WHEN
@@ -119,7 +116,6 @@ class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willReturn(stream);
     given(digest.digest()).willReturn(new byte[] { 0, 1 });
@@ -135,7 +131,6 @@ class Paths_assertHasDigest_DigestString_Test extends MockPathsBaseTest {
     // GIVEN
     InputStream stream = getClass().getResourceAsStream("/red.png");
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isRegularFile(actual)).willReturn(true);
     given(nioFilesWrapper.isReadable(actual)).willReturn(true);
     given(nioFilesWrapper.newInputStream(actual)).willReturn(stream);
     given(digest.digest()).willReturn(expected.getBytes());
