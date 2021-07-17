@@ -21,26 +21,22 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.FieldsOnlyIntrospectionStrategy;
+import org.assertj.core.util.introspection.GetterIntrospectionStrategy;
+import org.assertj.core.util.introspection.IntrospectionStrategy;
 
 public class RecursiveComparisonConfiguration {
 
@@ -56,6 +52,8 @@ public class RecursiveComparisonConfiguration {
   private Set<String> ignoredFields = new LinkedHashSet<>();
   private List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
+
+  private IntrospectionStrategy introspectionStrategy = FieldsOnlyIntrospectionStrategy.instance();
 
   // fields to compare (no other field will be)
   private Set<String> comparedFields = new LinkedHashSet<>();
@@ -93,6 +91,7 @@ public class RecursiveComparisonConfiguration {
     ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
     this.typeComparators = builder.typeComparators;
     this.fieldComparators = builder.fieldComparators;
+    this.introspectionStrategy = builder.introspectionStrategy;
   }
 
   public RecursiveComparisonConfiguration() {}
@@ -491,6 +490,14 @@ public class RecursiveComparisonConfiguration {
     this.strictTypeChecking = strictTypeChecking;
   }
 
+  public void useGetterIntrospectionStrategy() {
+    this.introspectionStrategy = GetterIntrospectionStrategy.instance();
+  }
+
+  public void useFieldIntrospectionStrategy() {
+    this.introspectionStrategy = FieldsOnlyIntrospectionStrategy.instance();
+  }
+
   public boolean isInStrictTypeCheckingMode() {
     return strictTypeChecking;
   }
@@ -598,7 +605,7 @@ public class RecursiveComparisonConfiguration {
   }
 
   Set<String> getNonIgnoredActualFieldNames(DualValue dualValue) {
-    Set<String> actualFieldsNames = Objects.getFieldsNames(dualValue.actual.getClass());
+    Set<String> actualFieldsNames = introspectionStrategy.getMemberNamesAsFields(dualValue.actual.getClass());
     // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
     // - we filter first ignored field by names that don't need building DualValues
     // - then we filter field DualValues with the remaining criteria that need to get the field value
@@ -627,12 +634,17 @@ public class RecursiveComparisonConfiguration {
     return matchesAnIgnoredField(fieldLocation) || matchesAnIgnoredFieldRegex(fieldLocation);
   }
 
-  private static DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
-    Object actualFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.actual);
+  IntrospectionStrategy getIntrospectionStrategy() {
+    return introspectionStrategy;
+  }
+
+  private DualValue dualValueForField(DualValue parentDualValue, String fieldName) {
+    Object actualFieldValue = introspectionStrategy.getMemberValue(fieldName, parentDualValue.actual); // COMPARISON.getSimpleValue(fieldName,
     // no guarantees we have a field in expected named as fieldName
     Object expectedFieldValue;
     try {
-      expectedFieldValue = COMPARISON.getSimpleValue(fieldName, parentDualValue.expected);
+      expectedFieldValue = introspectionStrategy.getMemberValue(fieldName, parentDualValue.expected); // COMPARISON.getSimpleValue(fieldName,
+                                                                                                // parentDualValue.expected);
     } catch (@SuppressWarnings("unused") Exception e) {
       // set the field to null to express it is absent, this not 100% accurate as the value could be null
       // but it works to evaluate if dualValue should be ignored with matchesAnIgnoredFieldType
@@ -922,6 +934,7 @@ public class RecursiveComparisonConfiguration {
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
     private TypeComparators typeComparators = defaultTypeComparators();
     private FieldComparators fieldComparators = new FieldComparators();
+    private IntrospectionStrategy introspectionStrategy = FieldsOnlyIntrospectionStrategy.instance();
 
     private Builder() {}
 
@@ -1217,6 +1230,20 @@ public class RecursiveComparisonConfiguration {
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
+    }
+
+    private Builder withIntrospectionStrategy(IntrospectionStrategy introspectionStrategy) {
+      requireNonNull(introspectionStrategy, "Expecting a non null IntrospectionStrategy");
+      this.introspectionStrategy = introspectionStrategy;
+      return this;
+    }
+
+    public Builder withFieldsOnlyIntrospectionStrategy() {
+      return withIntrospectionStrategy(FieldsOnlyIntrospectionStrategy.instance());
+    }
+
+    public Builder withGetterIntrospectionStrategy() {
+      return withIntrospectionStrategy(GetterIntrospectionStrategy.instance());
     }
 
     public RecursiveComparisonConfiguration build() {
