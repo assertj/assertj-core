@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.object;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#hasAllNullFieldsOrPropertiesExcept(String...)}</code>.
@@ -35,5 +37,24 @@ class ObjectAssert_hasAllNullFieldsOrPropertiesExcept_Test extends ObjectAssertB
   @Override
   protected void verify_internal_effects() {
     verify(objects).assertHasAllNullFieldsOrPropertiesExcept(getInfo(assertions), getActual(assertions), FIELD_NAME);
+  }
+  class Book {
+    String title;
+    int pages;
+  }
+
+  @Test
+  void testHasAllNullFieldsOrPropertiesExceptPrimitiveTypes_one() {
+    Book book = new Book();
+    assertThat(book).hasAllNullFieldsOrPropertiesExceptPrimitiveTypes();
+  }
+  class Apple {
+    String color;
+    int size;
+  }
+  @Test
+  void testHasAllNullFieldsOrPropertiesExceptPrimitiveTypes_two() {
+    Apple apple = new Apple();
+    assertThat(apple).hasAllNullFieldsOrPropertiesExceptPrimitiveTypes();
   }
 }
