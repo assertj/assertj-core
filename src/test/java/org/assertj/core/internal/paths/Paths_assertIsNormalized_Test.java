@@ -12,41 +12,56 @@
  */
 package org.assertj.core.internal.paths;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
+import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-class Paths_assertIsNormalized_Test extends MockPathsBaseTest {
+class Paths_assertIsNormalized_Test extends PathsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> paths.assertIsNormalized(info, null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
-  @Test
-  void should_fail_if_actual_is_not_normalized() {
-    when(actual.normalize()).thenReturn(mock(Path.class));
-
-    Throwable error = catchThrowable(() -> paths.assertIsNormalized(info, actual));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeNormalized(actual));
+  @ParameterizedTest
+  @MethodSource("nonNormalizedPaths")
+  void should_fail_if_actual_is_not_normalized(Path actual) {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> paths.assertIsNormalized(info, actual));
+    // THEN
+    then(error).hasMessage(shouldBeNormalized(actual).create());
   }
 
-  @Test
-  void should_pass_if_actual_is_normalized() {
-    when(actual.normalize()).thenReturn(actual);
+  private static Stream<Path> nonNormalizedPaths() {
+    return Stream.of(Paths.get("/", "a", ".", "b"),
+                     Paths.get("c", "b", ".."),
+                     Paths.get("/", "..", "..", "e"));
+  }
 
+  @ParameterizedTest
+  @MethodSource("normalizedPaths")
+  void should_pass_if_actual_is_normalized(Path actual) {
+    // WHEN/THEN
     paths.assertIsNormalized(info, actual);
   }
+
+  private static Stream<Path> normalizedPaths() {
+    return Stream.of(Paths.get("/", "usr", "lib"),
+                     Paths.get("a", "b", "c"),
+                     Paths.get("..", "d"));
+  }
+
 }

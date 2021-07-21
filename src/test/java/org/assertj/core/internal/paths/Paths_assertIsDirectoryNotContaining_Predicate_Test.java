@@ -106,7 +106,6 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
   void should_fail_if_actual_exists_but_is_not_directory() {
     // GIVEN
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(false);
     // WHEN
     expectAssertionError(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
@@ -118,7 +117,6 @@ class Paths_assertIsDirectoryNotContaining_Predicate_Test extends MockPathsBaseT
     // GIVEN
     IOException cause = new IOException();
     given(nioFilesWrapper.exists(actual)).willReturn(true);
-    given(nioFilesWrapper.isDirectory(actual)).willReturn(true);
     given(nioFilesWrapper.newDirectoryStream(eq(actual), any())).willThrow(cause);
     // WHEN
     Throwable error = catchThrowable(() -> paths.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
